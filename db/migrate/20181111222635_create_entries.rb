@@ -5,6 +5,7 @@ class CreateEntries < ActiveRecord::Migration
       t.string :location
       t.string :date
       t.string :description
+      t.integer :log_id
     end
   end
 end

@@ -14,6 +14,10 @@ class UsersController < ApplicationController
     end
   end
 
+  #get signup
+
+  #post signup
+
   get '/users/:id' do
     @user = User.find_by(id: params[:id])
     erb :'/users/show'
