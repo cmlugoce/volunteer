@@ -13,6 +13,7 @@ class VolunteerController < ApplicationController
 
         else
             redirect to '/login'
+        end
     end
 
     get '/volunteer_logs/:id' do
