@@ -28,4 +28,4 @@ Everyone interacting in the GlobalFoodFestivals project’s codebases, issue tra
 
 ## Credits
 
-Bootstrap references were obtained from [here] (https://getbootstrap.com/) Project structure developed with Corneal gem.
+Bootstrap references were obtained from [here](https://getbootstrap.com/). Project structure developed with Corneal gem.
