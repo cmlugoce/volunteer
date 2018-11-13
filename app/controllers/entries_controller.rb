@@ -13,11 +13,11 @@ class EntriesController < ApplicationController
     post "/entry" do
         if logged_in?
             entry = Entry.create(params[:entry])
-            log = current_user.logs.find_by(id: params[:log][:id])
+            log = current_user.logs.find_by(user_id: params[:log][:user_id])
             if log
-                entry.log_id = log.id
+                entry.log_id = log.user_id
                 if entry.save
-                redirect to "/entry/#{entry.id}"
+                redirect to "/entry/#{entry.user_id}"
                 else
                 flash[:message] = "Your entry failed to save."
                 redirect to "/entry/new"
@@ -34,7 +34,7 @@ class EntriesController < ApplicationController
 
     get "/entry/:id" do
         if logged_in?
-            @entry = current_user.entries.find_by(id: params[:id])
+            @entry = current_user.entries.find_by(user_id: params[:user_id])
             if @entry
                 @log = Log.find_by(id: @entry.log_id)
                 erb :"/entries/show"
@@ -49,9 +49,9 @@ class EntriesController < ApplicationController
         end
     end
 
-    get "/entry/:id/edit" do
+    get "/entry/user_id/edit" do
         if logged_in?
-            @entry = current_user.entries.find_by(id: params[:id])
+            @entry = current_user.entries.find_by(user_id: params[:user_id])
             if @entry
                 @logs = current_user.logs
                 erb :"/entries/edit"
@@ -66,16 +66,16 @@ class EntriesController < ApplicationController
     end
 
     patch '/entry/:id' do
-        if logged_in? && params[:name] == "" || params[:location] == ""
-                redirect to "/entries/#{params[:id]}/edit"
+        if logged_in? && params[:user_id] == "" || params[:title == ""
+                redirect to "/entries/#{params[:user_id]}/edit"
         else
-            @entry = Entry.find_by_id(params[:id])
+            @entry = Entry.find_by_id(params[:user_id])
             if @entry && @entry.user == current_user
-                @entry.update(name: params[:name], location: params[:location], date: params[:date], notes: params[:notes], distance: params[:distance])
-                flash[:success] = "Successfully edited entry."
-                redirect "/entries/#{params[:id]}"
+                @entry.update(user_id: params[:user_id], title: params[:title, points: params[:points])
+                flash[:success] = "You have successfully edited this entry."
+                redirect "/entries/#{params[:user_id]}"
             else
-                flash[:error] = "You are not authorized to edit this entry"
+                flash[:error] = "You are not authorized to edit this entry."
                 redirect to '/entries'
             end
         end
