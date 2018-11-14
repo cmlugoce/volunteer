@@ -1,1 +1,11 @@
 INDEX PAGE FOR VOLUNTEER LOGS
+
+<% @entries.each do |entry| %>
+  <%= entry.title %><br />
+  <%= entry.location %><br />
+  <%= entry.date %> <br />
+  <%= entry.decription %> <br />
+  <a href="/entries/<%=entry.id%>/edit">Edit</a>
+  <br />
+  <br />
+<% end %>

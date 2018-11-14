@@ -1,3 +1,10 @@
-SHOW PAGE FOR A VOLUNTEER Entry
+SHOW PAGE FOR A VOLUNTEER ENTRY
 
-<p><%= @volunteer_entries.content %></p>
+<p><%= @volunteer_entries.content %>
+
+<form method="post" action="/entries/<%=@entry.id%>/delete">
+  <input id="hidden" type="hidden" name="_method" value="DELETE">
+  <input type="submit" value="Delete Entry">
+</form>
+
+<a href="/entries/<%=@entry.id%>/edit">Edit Entry </a>

@@ -1,0 +1,14 @@
+<h1>Edit <%= @log.name %></h1>
+
+<form action="/logs/<%=@log.id %>" method="POST">
+  <label> Log Name </label>
+  <input type="text" name="name" value="<%=@log.name %>"> </br>
+
+  <label> Log Manufacturer </label>
+  <input type="text" name="manufacturer" value="<%=@log.points%>"> </br>
+
+  <label> Log Points </label>
+  <input type="text" name="points" value="<%=@club.manufacturer%>"> </br>
+
+  <input type="submit" value="Update">
+</form>
