@@ -7,7 +7,7 @@ class ApplicationController < Sinatra::Base
     set :public_folder, 'public'
     set :views, 'app/views'
     enable :sessions
-    set :session_secret, "my_application_volunteer_journal_app"
+    set :session_secret, "volunteer_app"
     #use Rack::Flash
   end
 

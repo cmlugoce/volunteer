@@ -11,41 +11,28 @@ class EntriesController < ApplicationController
     end
 
     post "/entry" do
-        if logged_in?
-            entry = Entry.create(params[:entry])
-            log = current_user.logs.find_by(user_id: params[:log][:user_id])
-            if log
-                entry.log_id = log.user_id
-                if entry.save
-                redirect to "/entry/#{entry.user_id}"
-                else
-                flash[:message] = "Your entry failed to save."
-                redirect to "/entry/new"
-            end
+      if logged_in?
+      if params[:content] == ""
+        redirect to "/entries/new"
+      else
+        @entry = current_user.entrys.build(content: params[:content])#add params here
+        if @entry.save
+          redirect to "/entries/#{@entry.id}"
         else
-            redirect to "/entry/new"
+          redirect to "/entries/new"
         end
-
-        else
-            flash[:message] = "You must log in to view this page."
-            redirect to "/login"
-        end
+      end
+    else
+      redirect to '/login'
+      end
     end
 
     get "/entry/:id" do
         if logged_in?
-            @entry = current_user.entries.find_by(user_id: params[:user_id])
-            if @entry
-                @log = Log.find_by(id: @entry.log_id)
-                erb :"/entries/show"
-            else
-                flash[:error] = "There is no entry on this page."
-                redirect to "/logs"
-        end
-
+         @entry = Entry.find_by_id(params[:id])
+            erb :'entries/show_entry'
         else
-            flash[:error] = "You must log in to view log entries."
-            redirect to "/login"
+            redirect to '/login'
         end
     end
 
@@ -58,16 +45,14 @@ class EntriesController < ApplicationController
             else
                 redirect to "/logs"
         end
-
         else
-            flash[:error] = "You must log in to view this page."
-            redirect to "/login"
+            redirect to '/login'
         end
     end
 
-    patch '/entry/:id' do
-        if logged_in? && params[:user_id] == "" || params[:title == ""
-                redirect to "/entries/#{params[:user_id]}/edit"
+    patch '/entries/:id' do
+        if logged_in? && params[:user_id] == "" || params[:title] == ""
+               redirect to "/entries/#{params[:user_id]}/edit"
         else
             @entry = Entry.find_by_id(params[:user_id])
             if @entry && @entry.user == current_user
