@@ -1,5 +1,13 @@
 class UsersController < ApplicationController
 
+   get '/signup' do
+    if !logged_in?
+      erb :'users/signup'
+    else
+      redirect to '/entries' 
+    end
+  end
+
   get '/login' do
     erb :login
   end
