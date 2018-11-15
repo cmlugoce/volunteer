@@ -7,7 +7,7 @@
  <h2>Entries logged: <%= "#{@user.entries.size}" %></h2>
 <% end %>
 
- <% @user.trails.each do |entry| %>
+ <% @user.entries.each do |entry| %>
  <a href="/entries/<%= trail.id %>"><h3><%= entry.name %></h3></a>
  <% end %>
  <% if @user == current_user %>
