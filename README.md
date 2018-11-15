@@ -1,6 +1,6 @@
 # Charlottesville Community Volunteer Log Application
 
-Volunteer is a Sinatra Web application that allows a user the ability to create and account, add volunteer logs, and the option to edit volunteer logs. A volunteer log belongs to a user and cannot be edited by other users. 
+Volunteer is a CRUD, Model-View-Controller web application using the Sinatra framework. This application  allows a user the ability to create an account, add volunteer entries to their log and edit volunteer entries. A volunteer has many entries and a log and it's entries belongs to a user; entries and logs cannot be edited by other users. 
 
 ## Installation
 
