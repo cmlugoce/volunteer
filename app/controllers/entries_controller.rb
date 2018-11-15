@@ -15,7 +15,7 @@ class EntriesController < ApplicationController
       if params[:content] == ""
         redirect to "/entries/new"
       else
-        @entry = current_user.entrys.build(title: params[:title], location: params[:location], date: params[:date], description: params[:desscription], user_id: session[:user_id])
+        @entry = current_user.entries.build(title: params[:title], location: params[:location], date: params[:date], description: params[:desscription], user_id: session[:user_id])
         if @entry.save
           redirect to "/entries/#{@entry.id}"
         else
