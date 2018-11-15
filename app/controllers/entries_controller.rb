@@ -15,7 +15,7 @@ class EntriesController < ApplicationController
       if params[:content] == ""
         redirect to "/entries/new"
       else
-        @entry = current_user.entrys.build(content: params[:content])#add params here
+        @entry = current_user.entrys.build(title: params[:title], location: params[:location], date: params[:date], description: params[:desscription], user_id: session[:user_id])
         if @entry.save
           redirect to "/entries/#{@entry.id}"
         else
@@ -27,7 +27,7 @@ class EntriesController < ApplicationController
       end
     end
 
-    get "/entry/:id" do
+    get "/entry/:id" do 
         if logged_in?
          @entry = Entry.find_by_id(params[:id])
             erb :'entries/show_entry'
@@ -50,7 +50,7 @@ class EntriesController < ApplicationController
         end
     end
 
-    patch '/entries/:id' do
+    patch '/entries/:id' do #updates entries based on ID in the url
         if logged_in? && params[:user_id] == "" || params[:title] == ""
                redirect to "/entries/#{params[:user_id]}/edit"
         else
