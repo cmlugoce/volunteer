@@ -26,7 +26,7 @@ class UsersController < ApplicationController
       flash[:failure] = "Passwords do not match"
       redirect '/signup'
     else 
-      @user = User.create(username: params[:username], password: params[:password])
+      @user = User.create(username: params[:username], email: params[:email], password: params[:password])
       session[:user_id] = @user.id
       redirect '/entries'
   end

@@ -29,7 +29,7 @@ class EntriesController < ApplicationController
 
     get "/entry/:id" do 
         if logged_in?
-         @entry = Entry.find_by_id(params[:id])
+            @entry = Entry.find_by_id(params[:id])
             erb :'entries/show_entry'
         else
             redirect to '/login'
@@ -38,7 +38,7 @@ class EntriesController < ApplicationController
 
     get "/entry/user_id/edit" do
         if logged_in?
-            @entry = current_user.entries.find_by(user_id: params[:user_id])
+            @entry = current_user.entries.find_by(user_id: params[:user_id]) #vs just id
             if @entry
                 @logs = current_user.logs
                 erb :"/entries/edit"
@@ -56,7 +56,7 @@ class EntriesController < ApplicationController
         else
             @entry = Entry.find_by_id(params[:user_id])
             if @entry && @entry.user == current_user
-                @entry.update(user_id: params[:user_id], title: params[:title, points: params[:points])
+                @entry.update(user_id: params[:user_id], title: params[:title], points: params[:points])
                 flash[:success] = "You have successfully edited this entry."
                 redirect "/entries/#{params[:user_id]}"
             else
