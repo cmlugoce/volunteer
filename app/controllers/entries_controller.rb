@@ -38,7 +38,8 @@ class EntriesController < ApplicationController
 
     get "/entry/user_id/edit" do
         if logged_in?
-            @entry = current_user.entries.find_by(user_id: params[:user_id]) #vs just id
+            @entry = current_user.entries.find_by(user_id: params[:user_id]) 
+            #vs just id
             if @entry
                 @logs = current_user.logs
                 erb :"/entries/edit"
@@ -50,7 +51,8 @@ class EntriesController < ApplicationController
         end
     end
 
-    patch '/entries/:id' do #updates entries based on ID in the url
+    patch '/entries/:id' do 
+        #updates entries based on ID in the url
         if logged_in? && params[:user_id] == "" || params[:title] == ""
                redirect to "/entries/#{params[:user_id]}/edit"
         else
