@@ -1,23 +1,33 @@
 class EntrysController < ApplicationController
 
-    get "/entry/new" do
+    get '/entrys' do
         if logged_in?
-            @logs = current_user.logs
-            erb :"/entrys/new"
+            @entrys = current_user.entrys
+            erb :'entrys/index'
+        else
+            flash[:message] = "Signup or login to access entrys."
+            redirect '/login'
+        end
+    end
+    
+    get '/entrys/new' do
+        if logged_in?
+            @entrys = Entry.all
+            erb :'/entrys/new'
         else
             flash[:message] = "You must be logged in to view this page."
-            redirect to "/login"
+            redirect to '/login'
         end
     end
 
-    post "/entry" do
+    post '/entrys' do
       if Entry.new(params[:entry]).valid?
         @entry = current_user.entrys.create(params[:entry])
         @entry.save
       if !params[:log][:title].empty?
           @Entry.logs << Log.create(title: params[:log][:title])
       end
-            redirect "/entrys/#{@entry.slug}"
+            redirect "/entrys/#{@entry.id}"
       else
             flash[:new_entry] = "Please create your entry."
             redirect '/entrys/new'
@@ -28,7 +38,7 @@ class EntrysController < ApplicationController
     get "/entry/:id" do 
         if logged_in?
             @entry = Entry.find_by_id(params[:id])
-            erb :'entrys/show_entry'
+            erb :'entrys/show'
         else
             redirect to '/login'
         end
@@ -51,12 +61,12 @@ class EntrysController < ApplicationController
 
     patch '/entrys/:id' do 
         #updates entrys based on ID in the url
-        if logged_in? && params[:user_id] == "" || params[:title] == ""
+        if logged_in? && params[:id] == "" || params[:title] == ""
                redirect to "/entrys/#{params[:user_id]}/edit"
         else
             @entry = Entry.find_by_id(params[:user_id])
             if @entry && @entry.user == current_user
-                @entry.update(user_id: params[:user_id], title: params[:title], points: params[:points])
+                @entry.update(id: params[:user_id], title: params[:title], points: params[:points])
                 flash[:success] = "You have successfully edited this entry."
                 if !params[:log][:title].empty?
                     @entry.logs << Log.create(title: params[:log][:title])
