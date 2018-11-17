@@ -14,8 +14,8 @@ class EntrysController < ApplicationController
       if Entry.new(params[:entry]).valid?
         @entry = current_user.entrys.create(params[:entry])
         @entry.save
-      if !params[:log][:name].empty?
-          @Entry.logs << Log.create(name: params[:log][:name])
+      if !params[:log][:title].empty?
+          @Entry.logs << Log.create(title: params[:log][:title])
       end
             redirect "/entrys/#{@entry.slug}"
       else
@@ -23,20 +23,6 @@ class EntrysController < ApplicationController
             redirect '/entrys/new'
             end
         end
-    end
-
-
-      else
-        @entry = current_user.entrys.create(title: params[:title], location: params[:location], date: params[:date], description: params[:desscription], user_id: session[:user_id])
-        if @entry.save
-          redirect to "/entrys/#{@entry.id}"
-        else
-          redirect to "/entrys/new"
-        end
-      end
-    else
-      redirect to '/login'
-      end
     end
 
     get "/entry/:id" do 
@@ -72,7 +58,9 @@ class EntrysController < ApplicationController
             if @entry && @entry.user == current_user
                 @entry.update(user_id: params[:user_id], title: params[:title], points: params[:points])
                 flash[:success] = "You have successfully edited this entry."
-                redirect "/entrys/#{params[:user_id]}"
+                if !params[:log][:title].empty?
+                    @entry.logs << Log.create(title: params[:log][:title])
+                # redirect "/entrys/#{params[:user_id]}"
             else
                 flash[:error] = "You are not authorized to edit this entry."
                 redirect to '/entrys'
