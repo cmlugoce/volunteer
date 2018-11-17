@@ -9,11 +9,11 @@ class UsersController < ApplicationController
   end
 
   post '/signup' do
-    if User.find_by(name: params[:name])
+    if User.find_by(username: params[:username])
       flash[:failure_message] = "Name is Taken"
       redirect '/signup'
     elsif
-      params[:name] == "" || params[:email] == "" || params[:password] == ""
+      params[:username] == "" || params[:email] == "" || params[:password] == ""
       flash[:signup_message] = "Please fill out all required fields (name, email, and password)"
       redirect '/signup'
     elsif 
@@ -25,7 +25,7 @@ class UsersController < ApplicationController
       flash[:failure] = "Passwords do not match"
       redirect '/signup'
     else 
-      @user = User.create(name: params[:name], email: params[:email], password: params[:password])
+      @user = User.create(name: params[:username], email: params[:email], password: params[:password])
       session[:user_id] = @user.id
       redirect '/entries'
   end
@@ -36,8 +36,8 @@ end
   end
 
   post '/login' do
-    user = User.find_by(name: params["name"])
-    if user && user.authenticate(params["password"])
+    user = User.find_by(username: params["username"])
+    if user && user.authenticate(password: params["password"])
       session[:user_id] = user.id
       redirect "users/#{@user.id}"
     else
