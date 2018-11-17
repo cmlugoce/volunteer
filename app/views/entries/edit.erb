@@ -3,12 +3,12 @@
 <form action="/entries/<%= @entry.id %>" method='post'>
   <input id='hidden' type='hidden' name='_method' value='patch'>
    Name:<br>
-  <input type="text" name="title"  value='<%= @entry.title %>'><br>
-   Location:<br>
+  <input type="text" name="title" value='<%= @entry.title %>'><br>
+   Title:<br>
   <input type="text" name="location" value='<%= @entry.location %>'><br>
-    Date:<br>
+   Location:<br>
   <input type="text" name="date"  value='<%= @entry.date %>'><br>
-    Distance:<br>
+    Date:<br>
   <input type="text" name="description" required="true" value='<%= @entry.description %>'>
   <br></br>
 
