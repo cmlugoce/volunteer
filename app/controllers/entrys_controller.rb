@@ -27,7 +27,7 @@ class EntrysController < ApplicationController
       if !params[:log][:title].empty?
           @Entry.logs << Log.create(title: params[:log][:title])
       end
-            redirect "/entrys/#{@entry.id}"
+            redirect '/entrys/#{@entry.id}'
       else
             flash[:new_entry] = "Please create your entry."
             redirect '/entrys/new'
