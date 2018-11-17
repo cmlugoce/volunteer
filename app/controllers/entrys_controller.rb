@@ -2,7 +2,9 @@ class EntrysController < ApplicationController
 
     get '/entrys' do
         if logged_in?
-            @entrys = current_user.entrys
+            @user = current_user
+            session[:user_id] = @user.id
+            @entrys = Entry.all
             erb :'entrys/index'
         else
             flash[:message] = "Signup or login to access entries."
