@@ -1,9 +1,9 @@
-class EntriesController < ApplicationController
+class EntrysController < ApplicationController
 
     get "/entry/new" do
         if logged_in?
             @logs = current_user.logs
-            erb :"/entries/new"
+            erb :"/entrys/new"
         else
             flash[:message] = "You must be logged in to view this page."
             redirect to "/login"
@@ -11,15 +11,27 @@ class EntriesController < ApplicationController
     end
 
     post "/entry" do
-      if logged_in?
-      if params[:content] == ""
-        redirect to "/entries/new"
+      if Entry.new(params[:entry]).valid?
+        @entry = current_user.entrys.create(params[:entry])
+        @entry.save
+      if !params[:log][:name].empty?
+          @Entry.logs << Log.create(name: params[:log][:name])
+      end
+            redirect "/entrys/#{@entry.slug}"
       else
-        @entry = current_user.entries.build(title: params[:title], location: params[:location], date: params[:date], description: params[:desscription], user_id: session[:user_id])
+            flash[:new_entry] = "Please create your entry."
+            redirect '/entrys/new'
+            end
+        end
+    end
+
+
+      else
+        @entry = current_user.entrys.create(title: params[:title], location: params[:location], date: params[:date], description: params[:desscription], user_id: session[:user_id])
         if @entry.save
-          redirect to "/entries/#{@entry.id}"
+          redirect to "/entrys/#{@entry.id}"
         else
-          redirect to "/entries/new"
+          redirect to "/entrys/new"
         end
       end
     else
@@ -30,7 +42,7 @@ class EntriesController < ApplicationController
     get "/entry/:id" do 
         if logged_in?
             @entry = Entry.find_by_id(params[:id])
-            erb :'entries/show_entry'
+            erb :'entrys/show_entry'
         else
             redirect to '/login'
         end
@@ -38,11 +50,11 @@ class EntriesController < ApplicationController
 
     get "/entry/user_id/edit" do
         if logged_in?
-            @entry = current_user.entries.find_by(user_id: params[:user_id]) 
+            @entry = current_user.entrys.find_by(user_id: params[:user_id]) 
             #vs just id
             if @entry
                 @logs = current_user.logs
-                erb :"/entries/edit"
+                erb :"/entrys/edit"
             else
                 redirect to "/logs"
         end
@@ -51,26 +63,26 @@ class EntriesController < ApplicationController
         end
     end
 
-    patch '/entries/:id' do 
-        #updates entries based on ID in the url
+    patch '/entrys/:id' do 
+        #updates entrys based on ID in the url
         if logged_in? && params[:user_id] == "" || params[:title] == ""
-               redirect to "/entries/#{params[:user_id]}/edit"
+               redirect to "/entrys/#{params[:user_id]}/edit"
         else
             @entry = Entry.find_by_id(params[:user_id])
             if @entry && @entry.user == current_user
                 @entry.update(user_id: params[:user_id], title: params[:title], points: params[:points])
                 flash[:success] = "You have successfully edited this entry."
-                redirect "/entries/#{params[:user_id]}"
+                redirect "/entrys/#{params[:user_id]}"
             else
                 flash[:error] = "You are not authorized to edit this entry."
-                redirect to '/entries'
+                redirect to '/entrys'
             end
         end
     end
 
     get "/entry/:id/delete" do
         if logged_in?
-            entry = current_user.entries.find_by(id: params[:id])
+            entry = current_user.entrys.find_by(id: params[:id])
             if entry && entry.destroy
                 log = Log.find_by(id: entry.log_id)
                 flash[:error] = "Your entry has been deleted."

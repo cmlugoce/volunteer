@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20181111222635) do
 
-  create_table "entries", force: :cascade do |t|
+  create_table "entrys", force: :cascade do |t|
     t.string  "title"
     t.string  "location"
     t.string  "date"

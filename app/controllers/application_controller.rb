@@ -1,4 +1,3 @@
-
 require 'rack-flash'
 require './config/environment'
 

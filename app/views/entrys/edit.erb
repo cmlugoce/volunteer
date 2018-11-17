@@ -1,6 +1,6 @@
 <h1>Edit your entry</h1>
 
-<form action="/entries/<%= @entry.id %>" method='post'>
+<form action="/entrys/<%= @entry.id %>" method='post'>
   <input id='hidden' type='hidden' name='_method' value='patch'>
    Name:<br>
   <input type="text" name="title" value='<%= @entry.title %>'><br>

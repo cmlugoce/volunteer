@@ -8,5 +8,5 @@ use Rack::MethodOverride
 
 use UsersController
 use LogsController
-use EntriesController
+use EntrysController
 run ApplicationController
