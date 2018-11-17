@@ -13,7 +13,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect '/entrys'
     if 
-       flash[:signup_message] = "Please fill out all required fields (name, email, and password)"
+       flash[:signup_message] = "Please fill out all required fields (username, email, and password)"
       redirect '/signup'
     elsif
       !User.new(:username => params[:username], :password => params[:password]).valid?
