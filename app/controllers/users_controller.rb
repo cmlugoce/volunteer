@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-   get '/signup' do
+  get '/signup' do
     if !logged_in?
       erb :'users/signup'
     else
@@ -9,13 +9,12 @@ class UsersController < ApplicationController
   end
 
   post '/signup' do
-    if params[:username] == "" || params[:email] == "" || params[:password] == ""
-      flash[:signup_message] = "Please fill out all required fields (username, email, and password)"
-      redirect '/signup'
-    end
-
     if User.find_by(username: params[:username])
       flash[:failure_message] = "Username is Taken"
+      redirect '/signup'
+    elsif
+      params[:username] == "" || params[:email] == "" || params[:password] == ""
+      flash[:signup_message] = "Please fill out all required fields (username, email, and password)"
       redirect '/signup'
     elsif 
       params[:email] != params[:confirm_email]
