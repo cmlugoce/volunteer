@@ -5,7 +5,7 @@ class EntrysController < ApplicationController
             @entrys = current_user.entrys
             erb :'entrys/index'
         else
-            flash[:message] = "Signup or login to access entrys."
+            flash[:message] = "Signup or login to access entries."
             redirect '/login'
         end
     end
@@ -35,7 +35,7 @@ class EntrysController < ApplicationController
         end
     end
 
-    get "/entry/:id" do 
+    get "/entrys/:id" do 
         if logged_in?
             @entry = Entry.find_by_id(params[:id])
             erb :'entrys/show'
@@ -44,10 +44,9 @@ class EntrysController < ApplicationController
         end
     end
 
-    get "/entry/user_id/edit" do
+    get "/entrys/:id/edit" do
         if logged_in?
-            @entry = current_user.entrys.find_by(user_id: params[:user_id]) 
-            #vs just id
+            @entry = current_user.entrys.find_by(id: params[:id]) 
             if @entry
                 @logs = current_user.logs
                 erb :"/entrys/edit"
@@ -62,15 +61,15 @@ class EntrysController < ApplicationController
     patch '/entrys/:id' do 
         #updates entrys based on ID in the url
         if logged_in? && params[:id] == "" || params[:title] == ""
-               redirect to "/entrys/#{params[:user_id]}/edit"
+               redirect to "/entrys/#{params[:id]}/edit"
         else
-            @entry = Entry.find_by_id(params[:user_id])
+            @entry = Entry.find_by_id(params[:id])
             if @entry && @entry.user == current_user
-                @entry.update(id: params[:user_id], title: params[:title], points: params[:points])
+                @entry.update(id: params[:id], title: params[:title], points: params[:points])
                 flash[:success] = "You have successfully edited this entry."
                 if !params[:log][:title].empty?
                     @entry.logs << Log.create(title: params[:log][:title])
-                # redirect "/entrys/#{params[:user_id]}"
+                # redirect "/entrys/#{params[:id]}"
             else
                 flash[:error] = "You are not authorized to edit this entry."
                 redirect to '/entrys'
