@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   get '/signup' do
     if !logged_in?
 
-      erb :'users/create_user'
+      erb :'users/signup'
 
     else
       redirect to '/entrys'
