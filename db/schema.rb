@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20181111222635) do
     t.string  "date"
     t.string  "description"
     t.integer "log_id"
+    t.integer "user_id"
   end
 
   create_table "logs", force: :cascade do |t|
