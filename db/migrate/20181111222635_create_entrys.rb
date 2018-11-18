@@ -1,6 +1,6 @@
 class CreateEntrys < ActiveRecord::Migration
   def change
-    create_table :entrys do |t|
+    create_table :entries do |t|
       t.string :title
       t.string :location
       t.string :date
