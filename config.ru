@@ -6,7 +6,8 @@ end
 
 use Rack::MethodOverride
 
-use UsersController
+
 use LogsController
 use EntriesController
+use UsersController
 run ApplicationController
